@@ -1,7 +1,12 @@
 import axios from "axios";
 
+// Lógica "Inteligente":
+// 1. En Producción (Vercel): Usará la variable de entorno completa (que incluye el dominio de Render).
+// 2. En Local (Tu PC): Al no existir la variable, usará "/api" y seguirá aprovechando tu proxy de vite.config.js.
+const baseURL = import.meta.env.VITE_API_URL || "/api";
+
 const apiClient = axios.create({
-    baseURL: "/api",
+    baseURL: baseURL,
     headers: {
         "Content-Type": "application/json",
     },
@@ -15,19 +20,16 @@ apiClient.interceptors.request.use(
         }
         return config;
     },
-    (error) => {
-        return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
 );
 
-//Interceptor de respuesta: Manejar el token expirado
 apiClient.interceptors.response.use(
     (response) => response,
     (error) => {
-        //Si recibimos un 401, muy probable el token expiró
         if (error.response && error.response.status === 401) {
-            //Eliminar datos del usuario y token del almacenamiento local
+            // Lógica de logout si es necesario
         }
+        return Promise.reject(error);
     }
 );
 export default apiClient;

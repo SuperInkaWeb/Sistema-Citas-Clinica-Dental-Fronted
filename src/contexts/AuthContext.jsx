@@ -1,49 +1,47 @@
 import { useState } from 'react';
-import axios from 'axios';
+// ELIMINAMOS: import axios from 'axios';
+// IMPORTAMOS tu cliente configurado:
+import apiClient from '../api/apiClient';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from './auth.context';
-
-// Mover constantes fuera del componente para evitar warning de react-refresh
-const API_BASE_URL = "http://localhost:8080/api/auth";
-
 
 export const AuthProvider = ({children}) => {
     const navigate = useNavigate();
 
     const [token, setToken] = useState(localStorage.getItem("token") || null);
-
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    //Funciones de sesión
+    // --- Funciones de sesión ---
 
     /**
      * Intenta autenticar al usuario y guarda el token y rol
-     * @param {string} email
-     * @param {string} contrasena
      */
     const login = async (email, contrasena) => {
         setLoading(true);
         setError(null);
         try{
-            //LLama a la ruta /api/auth/login de Springboot
-            const response = await axios.post(`${API_BASE_URL}/login`, {email, contrasena});
+            // CAMBIO: Usamos apiClient en lugar de axios.
+            // La URL ahora es relativa: "/auth/login".
+            // apiClient ya tiene la base (ej: ...onrender.com/api)
+            const response = await apiClient.post('/auth/login', {email, contrasena});
+
             const {token: receivedToken, email: userEmail, rol: userRol } = response.data;
 
-            //Almacenar datos y token en Local Storage
+            // Almacenar datos y token en Local Storage
             localStorage.setItem("token", receivedToken);
             localStorage.setItem("user", JSON.stringify({email: userEmail, rol: userRol}));
 
-            //Actualizar estado
+            // Actualizar estado
             setToken(receivedToken);
             setUser({email: userEmail, rol: userRol});
 
-            //Configurar axios para enviar el token automaticamente en futuras solicitudes
-            axios.defaults.headers.common["Authorization"] = `Bearer ${receivedToken}`;
+            // NOTA: No necesitamos configurar el header manualmente aquí
+            // porque apiClient ya tiene un "interceptor" que lee el token del localStorage automáticamente.
 
         } catch (err) {
-            //Manejar errores de credenciales
+            // Manejar errores
             const errorMessage = err.response?.data?.message || "Credenciales incorrectas o error de conexion";
             setError(errorMessage);
             throw new Error(errorMessage);
@@ -52,30 +50,29 @@ export const AuthProvider = ({children}) => {
         }
     };
 
-    //Cierra la sesion del usuario
+    // Cierra la sesion del usuario
     const logout = () => {
-        //Eliminar datos y token del almacenamiento local
+        // Eliminar datos
         localStorage.removeItem("token");
         localStorage.removeItem("user");
 
-        //Limpiar estado
+        // Limpiar estado
         setToken(null);
         setUser(null);
 
-        //Limpiar el header de axios
-        delete axios.defaults.headers.common["Authorization"];
+        // No hace falta borrar el header manualmente, el interceptor dejará de enviarlo al no encontrar token en localStorage.
 
-        //Redirigir al usuario a la pagina de login
+        // Redirigir
         navigate("/login");
     };
 
-    //Funcion de registro
+    // Funcion de registro
     const register = async(userData) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.post(`${API_BASE_URL}/register`, userData);
-
+            // CAMBIO: Usamos apiClient
+            const response = await apiClient.post('/auth/register', userData);
             return response.data;
         } catch (err) {
             const errorMessage = err.response?.data || "Error al registrar. Verifique los datos";
@@ -86,18 +83,18 @@ export const AuthProvider = ({children}) => {
         }
     };
 
-    //Objeto de contexto a proveer
+    // Objeto de contexto
     const contextData = {
-      user,
-      token,
+        user,
+        token,
         loading,
         error,
         login,
         logout,
         register,
         isAuthenticated: !!token,
-        isAdmin: !!user?.rol === "ADMIN",
     };
+
     return (
         <AuthContext.Provider value={contextData}>
             {children}

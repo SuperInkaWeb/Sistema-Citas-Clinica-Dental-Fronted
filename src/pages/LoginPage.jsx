@@ -6,23 +6,20 @@ const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [contrasena, setContrasena] = useState("");
 
-    //Obtener las funciones y estados del contexto
-    const {login, error, loading, isAuthenticated} = useAuth();
+    const {login, error, loading, isAuthenticated, user} = useAuth();
     const navigate = useNavigate();
 
-    //Si ya está autenticado, redirigir a mis citas
     useEffect(() => {
-        if (isAuthenticated) {
-            navigate("/mis-citas");
+        if (isAuthenticated && user) {
+            if (user.rol === 'ADMIN') navigate('/admin'); else navigate('/mis-citas');
         }
-    }, [isAuthenticated, navigate]);
+    }, [isAuthenticated, user, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await login(email, contrasena);
-            //Redirigir a la página de mis citas tras el login exitoso
-            navigate("/mis-citas");
+            if (user?.rol === 'ADMIN') navigate('/admin'); else navigate('/mis-citas');
         } catch (err) {
             console.error("Fallo en el login: ", err.message);
         }

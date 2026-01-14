@@ -5,6 +5,9 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import AgendarCitaPage from './pages/AgendarCitaPage';
 import MisCitasPage from './pages/MisCitasPage';
+import AdminPanelPage from './pages/AdminPanelPage';
+import AdminEditarCitaPage from './pages/AdminEditarCitaPage';
+import AdminAgendarCitaPacientePage from './pages/AdminAgendarCitaPacientePage';
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 const NotFound = () => (
@@ -64,6 +67,30 @@ function App() {
             element={
             <ProtectedRoute allowedRoles="ADMIN, PACIENTE">
                 <MisCitasPage />
+            </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/admin"
+            element={
+            <ProtectedRoute allowedRoles="ADMIN">
+                <AdminPanelPage />
+            </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/admin/editar/:citaId"
+            element={
+            <ProtectedRoute allowedRoles="ADMIN">
+                <AdminEditarCitaPage />
+            </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/admin/agendar-paciente"
+            element={
+            <ProtectedRoute allowedRoles="ADMIN">
+                <AdminAgendarCitaPacientePage />
             </ProtectedRoute>
             }
         />

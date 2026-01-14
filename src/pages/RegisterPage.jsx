@@ -117,15 +117,23 @@ const RegisterPage = () => {
 
                 {/* Teléfono */}
                 <div>
-                    <label htmlFor="telefono">Teléfono</label>
+                    <label htmlFor="telefono">Teléfono (9 dígitos)</label>
                     <input
                         type="tel"
                         id="telefono"
                         name="telefono"
-                        placeholder="+51 987654321"
+                        placeholder="987654321"
                         value={formData.telefono}
                         onChange={handleChange}
+                        maxLength="9"
+                        pattern="[0-9]{9}"
+                        title="Ingresa exactamente 9 números"
                     />
+                    {formData.telefono && formData.telefono.length > 0 && formData.telefono.length < 9 && (
+                        <small style={{color: '#f59e0b', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block'}}>
+                            ⚠️ El teléfono debe tener 9 dígitos ({formData.telefono.length}/9)
+                        </small>
+                    )}
                 </div>
 
                 <button type="submit" disabled={loading}>
