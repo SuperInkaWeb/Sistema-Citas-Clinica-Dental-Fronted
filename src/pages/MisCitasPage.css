@@ -1,0 +1,292 @@
+/* Contenedor Principal */
+.mis-citas-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: calc(100vh - 70px);
+    background: #f9fafb;
+}
+
+/* Header de Mis Citas */
+.mis-citas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.mis-citas-header h1 {
+    font-size: 2rem;
+    color: #111827;
+    margin: 0;
+}
+
+.subtitle {
+    color: #6b7280;
+    margin: 0.25rem 0 0 0;
+    font-size: 0.95rem;
+}
+
+/* Botón Agendar Principal */
+.agendar-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+}
+
+.agendar-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Estado de Carga */
+.loading-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    font-size: 1.2rem;
+    color: #6b7280;
+}
+
+/* Estado Vacío */
+.empty-state {
+    background: white;
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state h2 {
+    font-size: 1.5rem;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+.agendar-btn-large {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.1rem;
+}
+
+.agendar-btn-large:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Grid de Citas */
+.citas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Tarjeta de Cita */
+.cita-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #3b82f6;
+    transition: all 0.2s ease;
+}
+
+.cita-card:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.cita-pendiente {
+    border-left-color: #f59e0b;
+}
+
+.cita-cancelada {
+    border-left-color: #ef4444;
+    opacity: 0.7;
+}
+
+.cita-confirmada {
+    border-left-color: #10b981;
+}
+
+/* Header de la Tarjeta */
+.cita-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.cita-id {
+    font-size: 0.85rem;
+    color: #9ca3af;
+}
+
+/* Estado de la Cita */
+.cita-estado {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.estado-pendiente {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.estado-cancelada {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.estado-confirmada {
+    background: #dcfce7;
+    color: #166534;
+}
+
+/* Contenido de la Cita */
+.cita-content {
+    margin-bottom: 1.5rem;
+}
+
+.cita-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.cita-item:last-child {
+    margin-bottom: 0;
+}
+
+.cita-label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.cita-value {
+    color: #6b7280;
+    font-size: 1rem;
+}
+
+/* Botón Cancelar */
+.cancelar-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.cancelar-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Mensaje de Error */
+.error-message {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .mis-citas-container {
+        padding: 1.5rem;
+    }
+
+    .mis-citas-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .mis-citas-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .agendar-btn {
+        width: 100%;
+    }
+
+    .citas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .empty-state {
+        padding: 2rem 1rem;
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .mis-citas-container {
+        padding: 1rem;
+        min-height: calc(100vh - 60px);
+    }
+
+    .mis-citas-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .subtitle {
+        font-size: 0.85rem;
+    }
+
+    .cita-card {
+        padding: 1rem;
+    }
+
+    .cita-label {
+        font-size: 0.85rem;
+    }
+
+    .cita-value {
+        font-size: 0.9rem;
+    }
+}
+
